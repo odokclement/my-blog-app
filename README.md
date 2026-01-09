@@ -1,480 +1,251 @@
-Welcome to your new TanStack app! 
+#  My Blog App
 
-# Getting Started
+A modern, full-featured blog application built with React 19, TypeScript, and TanStack Router. This project demonstrates CRUD operations, authentication, and permission-based access control.
 
-To run this application:
+##  Project Structure
+```
+my-blog-app/
+├── public/                 # Static assets
+├── src/
+│   ├── components/         # Reusable UI components
+│   │   ├── PostCard.tsx   # Blog post card component
+│   │   ├── PostForm.tsx   # Create/Edit post form
+│   │   └── Header.tsx     # Navigation header
+│   ├── contexts/          # React Context providers
+│   │   └── AuthContext.tsx # Authentication context
+│   ├── hooks/             # Custom React hooks
+│   │   ├── useAuth.ts     # Authentication hook
+│   │   └── usePosts.ts    # Posts data management hook
+│   ├── pages/             # Page components
+│   │   ├── HomePage.tsx   # Blog posts listing
+│   │   ├── PostPage.tsx   # Single post view
+│   │   ├── LoginPage.tsx  # Login page
+│   │   ├── NewPostPage.tsx # Create new post
+│   │   └── EditPostPage.tsx # Edit existing post
+│   ├── utils/             # Utility functions
+│   │   └── api.ts         # API service layer
+│   ├── types/             # TypeScript type definitions
+│   │   └── index.ts       # Shared types/interfaces
+│   ├── router.tsx         # TanStack Router configuration
+│   ├── App.tsx            # Root application component
+│   ├── main.tsx           # Application entry point
+│   └── index.css          # Global styles
+├── index.html             # HTML template
+├── vite.config.ts         # Vite configuration
+├── package.json           # Dependencies and scripts
+├── tsconfig.json          # TypeScript configuration
+└── README.md              # This file
+```
 
+##  Technology Stack
+
+- **React 19** - Latest React version with new features
+- **TypeScript** - Type-safe development
+- **TanStack Router** - Modern routing solution
+- **Vite** - Fast build tool and dev server
+- **Context API** - State management for authentication
+- **Zustand** - Optional state management (implemented but not required)
+- **Axios** - HTTP client for API calls
+- **date-fns** - Date formatting utility
+- **JSONPlaceholder** - Mock REST API for development
+
+##  Features
+
+###  Authentication System
+- Login/Logout functionality
+- Persistent sessions using localStorage
+- Role-based permissions (Admin vs Regular User)
+
+###  Blog CRUD Operations
+- **Create** new blog posts
+- **Read** blog posts list and individual posts
+- **Update** existing posts (with permissions)
+- **Delete** posts (with permissions)
+
+###  Permission System
+- **Admin users** can edit/delete ANY post
+- **Regular users** can only edit/delete THEIR OWN posts
+- **Guest users** can only view posts
+
+###  Modern UI/UX
+- Responsive design
+- Clean, modern interface
+- Loading states and error handling
+- Form validation
+
+###  React 19 Features
+- Using new React 19 features where applicable
+- Optimized performance
+- TypeScript throughout
+
+##  Default Users
+
+Two demo accounts are pre-configured for testing:
+
+| Username | Password      | Role            | Permissions                          |
+|----------|---------------|-----------------|--------------------------------------|
+| `admin`  | any password  | Administrator   | Can edit/delete ALL posts            |
+| `user`   | any password  | Regular User    | Can only edit/delete own posts       |
+
+> **Note:** The authentication is mock-based for this demo. Any password will work with these usernames.
+
+##  Getting Started
+
+### Prerequisites
+- Node.js 18+ and npm/yarn installed
+
+### Installation
+
+1. **Clone or create the project:**
 ```bash
-npm install
-npm run start
+   git clone <repository-url>
+   cd my-blog-app
 ```
 
-# Building For Production
-
-To build this application for production:
-
+2. **Install dependencies:**
 ```bash
-npm run build
+   npm install
 ```
 
-## Testing
-
-This project uses [Vitest](https://vitest.dev/) for testing. You can run the tests with:
-
+3. **Start the development server:**
 ```bash
-npm run test
+   npm run dev
 ```
 
-## Styling
+4. **Open your browser:**
+   Navigate to `http://localhost:3000`
 
-This project uses [Tailwind CSS](https://tailwindcss.com/) for styling.
+##  Application Routes
 
+- `/` - Home page with all blog posts
+- `/login` - Login page
+- `/posts/new` - Create new post (protected)
+- `/posts/:postId` - View single post
+- `/posts/:postId/edit` - Edit post (protected)
 
+##  API Integration
 
+The application uses **JSONPlaceholder** as a mock API:
 
-## Routing
-This project uses [TanStack Router](https://tanstack.com/router). The initial setup is a code based router. Which means that the routes are defined in code (in the `./src/main.tsx` file). If you like you can also use a file based routing setup by following the [File Based Routing](https://tanstack.com/router/latest/docs/framework/react/guide/file-based-routing) guide.
+### API Endpoints Used:
+- `GET /posts` - Fetch all posts
+- `GET /posts/:id` - Fetch single post
+- `POST /posts` - Create new post
+- `PUT /posts/:id` - Update post
+- `DELETE /posts/:id` - Delete post
 
-### Adding A Route
+### API Service Layer
+All API calls are managed through `src/utils/api.ts` with proper error handling and TypeScript types.
 
-To add a new route to your application just add another `createRoute` call to the `./src/main.tsx` file. The example below adds a new `/about`route to the root route.
+##  Styling
 
-```tsx
-const aboutRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: "/about",
-  component: () => <h1>About</h1>,
-});
+The application uses custom CSS with a utility-class approach similar to Tailwind:
+
+- Responsive design with mobile-first approach
+- Custom component styles in `index.css`
+- CSS variables for consistent theming
+- No external CSS frameworks for maximum control
+
+##  Key Implementation Details
+
+### Authentication Context (`AuthContext.tsx`)
+- Uses React Context API for global state
+- Implements localStorage persistence
+- Provides `useAuth` hook for easy access
+- Handles login, logout, and user state
+
+### Custom Hooks
+- `usePosts()` - Manages posts data with React 19 `use()` hook
+- `useAuth()` - Provides authentication state and methods
+
+### Routing (`router.tsx`)
+- File-based routing with TanStack Router
+- Type-safe route parameters
+- Lazy loading capabilities
+- Nested route support
+
+### Component Architecture
+- **Presentational Components:** PostCard, PostForm
+- **Container Components:** Page components
+- **Layout Components:** Header, App
+- Reusable and composable design
+
+##  Testing the Features
+
+### 1. Login as Admin
+- Username: `admin`, Password: `anything`
+- Create new posts
+- Edit/Delete ANY post (even those created by others)
+
+### 2. Login as Regular User
+- Username: `user`, Password: `anything`
+- Create new posts
+- Can only edit/delete posts you created
+
+### 3. Guest User
+- View all posts
+- Cannot create, edit, or delete posts
+- Redirected to login when trying to access protected routes
+
+##  Common Issues & Solutions
+
+### CSS Not Loading
+- Ensure `src/index.css` exists and is imported in `main.tsx`
+- Check Vite configuration for CSS processing
+- Clear browser cache with `Ctrl+Shift+R`
+
+### Router Issues
+- Run `npm run build` if routes aren't recognized
+- Check TanStack Router version compatibility
+
+### API Errors
+- JSONPlaceholder is a mock API - changes aren't persisted
+- Network errors will show fallback UI
+- Check browser DevTools Network tab
+
+##  Git Commit Strategy
+
+The project follows semantic commit messages:
+```
+feat: add new feature
+fix: bug fix
+docs: documentation changes
+style: code formatting
+refactor: code restructuring
+test: add/update tests
+chore: build process/dependencies
 ```
 
-You will also need to add the route to the `routeTree` in the `./src/main.tsx` file.
-
-```tsx
-const routeTree = rootRoute.addChildren([indexRoute, aboutRoute]);
-```
-
-With this set up you should be able to navigate to `/about` and see the about page.
-
-Of course you don't need to implement the About page in the `main.tsx` file. You can create that component in another file and import it into the `main.tsx` file, then use it in the `component` property of the `createRoute` call, like so:
-
-```tsx
-import About from "./components/About.tsx";
-
-const aboutRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: "/about",
-  component: About,
-});
-```
-
-That is how we have the `App` component set up with the home page.
-
-For more information on the options you have when you are creating code based routes check out the [Code Based Routing](https://tanstack.com/router/latest/docs/framework/react/guide/code-based-routing) documentation.
-
-Now that you have two routes you can use a `Link` component to navigate between them.
-
-### Adding Links
-
-To use SPA (Single Page Application) navigation you will need to import the `Link` component from `@tanstack/react-router`.
-
-```tsx
-import { Link } from "@tanstack/react-router";
-```
-
-Then anywhere in your JSX you can use it like so:
-
-```tsx
-<Link to="/about">About</Link>
-```
-
-This will create a link that will navigate to the `/about` route.
-
-More information on the `Link` component can be found in the [Link documentation](https://tanstack.com/router/v1/docs/framework/react/api/router/linkComponent).
-
-### Using A Layout
-
-
-Layouts can be used to wrap the contents of the routes in menus, headers, footers, etc.
-
-There is already a layout in the `src/main.tsx` file:
-
-```tsx
-const rootRoute = createRootRoute({
-  component: () => (
-    <>
-      <Outlet />
-      <TanStackRouterDevtools />
-    </>
-  ),
-});
-```
-
-You can use the React component specified in the `component` property of the `rootRoute` to wrap the contents of the routes. The `<Outlet />` component is used to render the current route within the body of the layout. For example you could add a header to the layout like so:
-
-```tsx
-import { Link } from "@tanstack/react-router";
-
-const rootRoute = createRootRoute({
-  component: () => (
-    <>
-      <header>
-        <nav>
-          <Link to="/">Home</Link>
-          <Link to="/about">About</Link>
-        </nav>
-      </header>
-      <Outlet />
-      <TanStackRouterDevtools />
-    </>
-  ),
-});
-```
-
-The `<TanStackRouterDevtools />` component is not required so you can remove it if you don't want it in your layout.
-
-More information on layouts can be found in the [Layouts documentation](https://tanstack.com/router/latest/docs/framework/react/guide/routing-concepts#layouts).
-
-
-### Migrating To File Base Routing
-
-First you need to add the Vite plugin for Tanstack Router:
-
-```bash
-npm install @tanstack/router-plugin -D
-```
-
-From there you need to update your `vite.config.js` file to use the plugin:
-
-```ts
-import { defineConfig } from "vite";
-import viteReact from "@vitejs/plugin-react";
-import { TanStackRouterVite } from "@tanstack/router-plugin/vite";
-import tailwindcss from "@tailwindcss/vite";
-
-  
-// https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [
-    TanStackRouterVite(),
-    viteReact(),
-    tailwindcss()
-  ],
-});
-```
-
-Now you'll need to rearrange your files a little bit. That starts with creating a `routes` directory in the `src` directory:
-
-```bash
-mkdir src/routes
-```
-
-Then you'll need to create a `src/routes/__root.tsx` file with the contents of the root route that was in `main.tsx`.
-
-```tsx
-import { Outlet, createRootRoute } from "@tanstack/react-router";
-import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
-
-export const Route = createRootRoute({
-  component: () => (
-    <>
-      <Outlet />
-      <TanStackRouterDevtools />
-    </>
-  ),
-});
-```
-
-Next up you'll need to move your home route code into `src/routes/index.tsx`
-
-```tsx
-import { createFileRoute } from "@tanstack/react-router";
-
-import logo from "../logo.svg";
-import "../App.css";
-
-export const Route = createFileRoute("/")({
-  component: App,
-});
-
-function App() {
-  return (
-    <div className="text-center">
-      <header className="min-h-screen flex flex-col items-center justify-center bg-[#282c34] text-white text-[calc(10px+2vmin)]">
-        <img
-          src={logo}
-          className="h-[40vmin] pointer-events-none animate-[spin_20s_linear_infinite]"
-          alt="logo"
-        />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="text-[#61dafb] hover:underline"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <a
-          className="text-[#61dafb] hover:underline"
-          href="https://tanstack.com"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn TanStack
-        </a>
-      </header>
-    </div>
-  );
-}
-```
-
-At this point you can delete `src/App.tsx`, you will no longer need it as the contents have moved into `src/routes/index.tsx`.
-
-The only additional code is the `createFileRoute` function that tells TanStack Router where to render the route. Helpfully the Vite plugin will keep the path argument that goes to `createFileRoute` automatically in sync with the file system.
-
-Finally the `src/main.tsx` file can be simplified down to this:
-
-```tsx
-import { StrictMode } from "react";
-import ReactDOM from "react-dom/client";
-import { RouterProvider, createRouter } from "@tanstack/react-router";
-
-// Import the generated route tree
-import { routeTree } from "./routeTree.gen";
-
-import "./styles.css";
-import reportWebVitals from "./reportWebVitals.ts";
-
-// Create a new router instance
-const router = createRouter({
-  routeTree,
-  defaultPreload: "intent",
-  defaultPreloadStaleTime: 0,
-  scrollRestoration: true,
-  defaultStructuralSharing: true
-});
-
-// Register the router instance for type safety
-declare module "@tanstack/react-router" {
-  interface Register {
-    router: typeof router;
-  }
-}
-
-// Render the app
-const rootElement = document.getElementById("app")!;
-if (!rootElement.innerHTML) {
-  const root = ReactDOM.createRoot(rootElement);
-  root.render(
-    <StrictMode>
-      <RouterProvider router={router} />
-    </StrictMode>
-  );
-}
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
-```
-
-Now you've got a file based routing setup in your project! Let's have some fun with it! Just create a file in `about.tsx` in `src/routes` and it if the application is running TanStack will automatically add contents to the file and you'll have the start of your `/about` route ready to go with no additional work. You can see why folks find File Based Routing so easy to use.
-
-You can find out everything you need to know on how to use file based routing in the [File Based Routing](https://tanstack.com/router/latest/docs/framework/react/guide/file-based-routing) documentation.
-
-## Data Fetching
-
-There are multiple ways to fetch data in your application. You can use TanStack Query to fetch data from a server. But you can also use the `loader` functionality built into TanStack Router to load the data for a route before it's rendered.
-
-For example:
-
-```tsx
-const peopleRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: "/people",
-  loader: async () => {
-    const response = await fetch("https://swapi.dev/api/people");
-    return response.json() as Promise<{
-      results: {
-        name: string;
-      }[];
-    }>;
-  },
-  component: () => {
-    const data = peopleRoute.useLoaderData();
-    return (
-      <ul>
-        {data.results.map((person) => (
-          <li key={person.name}>{person.name}</li>
-        ))}
-      </ul>
-    );
-  },
-});
-```
-
-Loaders simplify your data fetching logic dramatically. Check out more information in the [Loader documentation](https://tanstack.com/router/latest/docs/framework/react/guide/data-loading#loader-parameters).
-
-### React-Query
-
-React-Query is an excellent addition or alternative to route loading and integrating it into you application is a breeze.
-
-First add your dependencies:
-
-```bash
-npm install @tanstack/react-query @tanstack/react-query-devtools
-```
-
-Next we'll need to create a query client and provider. We recommend putting those in `main.tsx`.
-
-```tsx
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-
-// ...
-
-const queryClient = new QueryClient();
-
-// ...
-
-if (!rootElement.innerHTML) {
-  const root = ReactDOM.createRoot(rootElement);
-
-  root.render(
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-    </QueryClientProvider>
-  );
-}
-```
-
-You can also add TanStack Query Devtools to the root route (optional).
-
-```tsx
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-
-const rootRoute = createRootRoute({
-  component: () => (
-    <>
-      <Outlet />
-      <ReactQueryDevtools buttonPosition="top-right" />
-      <TanStackRouterDevtools />
-    </>
-  ),
-});
-```
-
-Now you can use `useQuery` to fetch your data.
-
-```tsx
-import { useQuery } from "@tanstack/react-query";
-
-import "./App.css";
-
-function App() {
-  const { data } = useQuery({
-    queryKey: ["people"],
-    queryFn: () =>
-      fetch("https://swapi.dev/api/people")
-        .then((res) => res.json())
-        .then((data) => data.results as { name: string }[]),
-    initialData: [],
-  });
-
-  return (
-    <div>
-      <ul>
-        {data.map((person) => (
-          <li key={person.name}>{person.name}</li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-
-export default App;
-```
-
-You can find out everything you need to know on how to use React-Query in the [React-Query documentation](https://tanstack.com/query/latest/docs/framework/react/overview).
-
-## State Management
-
-Another common requirement for React applications is state management. There are many options for state management in React. TanStack Store provides a great starting point for your project.
-
-First you need to add TanStack Store as a dependency:
-
-```bash
-npm install @tanstack/store
-```
-
-Now let's create a simple counter in the `src/App.tsx` file as a demonstration.
-
-```tsx
-import { useStore } from "@tanstack/react-store";
-import { Store } from "@tanstack/store";
-import "./App.css";
-
-const countStore = new Store(0);
-
-function App() {
-  const count = useStore(countStore);
-  return (
-    <div>
-      <button onClick={() => countStore.setState((n) => n + 1)}>
-        Increment - {count}
-      </button>
-    </div>
-  );
-}
-
-export default App;
-```
-
-One of the many nice features of TanStack Store is the ability to derive state from other state. That derived state will update when the base state updates.
-
-Let's check this out by doubling the count using derived state.
-
-```tsx
-import { useStore } from "@tanstack/react-store";
-import { Store, Derived } from "@tanstack/store";
-import "./App.css";
-
-const countStore = new Store(0);
-
-const doubledStore = new Derived({
-  fn: () => countStore.state * 2,
-  deps: [countStore],
-});
-doubledStore.mount();
-
-function App() {
-  const count = useStore(countStore);
-  const doubledCount = useStore(doubledStore);
-
-  return (
-    <div>
-      <button onClick={() => countStore.setState((n) => n + 1)}>
-        Increment - {count}
-      </button>
-      <div>Doubled - {doubledCount}</div>
-    </div>
-  );
-}
-
-export default App;
-```
-
-We use the `Derived` class to create a new store that is derived from another store. The `Derived` class has a `mount` method that will start the derived store updating.
-
-Once we've created the derived store we can use it in the `App` component just like we would any other store using the `useStore` hook.
-
-You can find out everything you need to know on how to use TanStack Store in the [TanStack Store documentation](https://tanstack.com/store/latest).
-
-# Demo files
-
-Files prefixed with `demo` can be safely deleted. They are there to provide a starting point for you to play around with the features you've installed.
-
-# Learn More
-
-You can learn more about all of the offerings from TanStack in the [TanStack documentation](https://tanstack.com).
+##  Future Enhancements
+
+Potential improvements:
+
+- [ ] Real backend integration
+- [ ] User registration
+- [ ] Post categories/tags
+- [ ] Search functionality
+- [ ] Pagination
+- [ ] Comments system
+- [ ] Image uploads
+- [ ] Dark mode
+- [ ] Unit/Integration tests
+- [ ] PWA capabilities
+
+##  License
+
+This project is created for educational purposes and competency testing.
+
+##  Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Open a Pull Request
+
+##  Acknowledgments
+
+- [React 19](https://react.dev/)
+- [TanStack Router](https://tanstack.com/router)
+- [Vite](https://vitejs.dev/)
+- [JSONPlaceholder](https://jsonplaceholder.typicode.com/)
