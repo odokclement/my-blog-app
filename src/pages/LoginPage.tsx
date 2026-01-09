@@ -1,26 +1,26 @@
-// src/pages/LoginPage.tsx
-import { useState } from 'react'
-import { useNavigate } from '@tanstack/react-router'
-import { useAuth } from '../hooks/useAuth'
+// login page component
+import { useState } from "react";
+import { useNavigate } from "@tanstack/react-router";
+import { useAuth } from "../hooks/useAuth";
 
 export default function LoginPage() {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [error, setError] = useState('')
-  const { login } = useAuth()
-  const navigate = useNavigate()
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setError('')
+    e.preventDefault();
+    setError("");
 
     try {
-      await login(username, password)
-      navigate({ to: '/' })
+      await login(username, password);
+      navigate({ to: "/" });
     } catch (err) {
-      setError('Invalid credentials')
+      setError("Invalid credentials");
     }
-  }
+  };
 
   return (
     <div className="max-w-md mx-auto mt-12">
@@ -28,7 +28,10 @@ export default function LoginPage() {
         <h1 className="text-2xl font-bold text-gray-800 mb-6">Login</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="username"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               Username
             </label>
             <input
@@ -42,7 +45,10 @@ export default function LoginPage() {
             />
           </div>
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               Password
             </label>
             <input
@@ -55,9 +61,7 @@ export default function LoginPage() {
               placeholder="Enter password"
             />
           </div>
-          {error && (
-            <div className="text-red-600 text-sm">{error}</div>
-          )}
+          {error && <div className="text-red-600 text-sm">{error}</div>}
           <div className="text-sm text-gray-600 space-y-1">
             <p>Demo accounts:</p>
             <p>• admin / any password (admin privileges)</p>
@@ -72,5 +76,5 @@ export default function LoginPage() {
         </form>
       </div>
     </div>
-  )
+  );
 }

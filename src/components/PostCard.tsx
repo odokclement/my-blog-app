@@ -1,16 +1,16 @@
-// src/components/PostCard.tsx
-import type { Post } from '../types'
-import { Link } from '@tanstack/react-router'
-import { useAuth } from '../hooks/useAuth'
+//postcard component
+import type { Post } from "../types";
+import { Link } from "@tanstack/react-router";
+import { useAuth } from "../hooks/useAuth";
 
 interface PostCardProps {
-  post: Post
-  onDelete: (id: number) => void
+  post: Post;
+  onDelete: (id: number) => void;
 }
 
 export function PostCard({ post, onDelete }: PostCardProps) {
-  const { user } = useAuth()
-  const canEdit = user && (user.id === post.userId || user.isAdmin)
+  const { user } = useAuth();
+  const canEdit = user && (user.id === post.userId || user.isAdmin);
 
   return (
     <div className="bg-white rounded-lg shadow p-6 mb-4 hover:shadow-md transition-shadow">
@@ -46,5 +46,5 @@ export function PostCard({ post, onDelete }: PostCardProps) {
         </div>
       </div>
     </div>
-  )
+  );
 }

@@ -1,13 +1,13 @@
-// src/pages/PostPage.tsx
-import { useParams } from '@tanstack/react-router'
-import { usePost } from '../hooks/usePosts'
-import { useAuth } from '../hooks/useAuth'
-import { Link } from '@tanstack/react-router'
+// post page component
+import { useParams } from "@tanstack/react-router";
+import { usePost } from "../hooks/usePosts";
+import { useAuth } from "../hooks/useAuth";
+import { Link } from "@tanstack/react-router";
 
 export default function PostPage() {
-  const { postId } = useParams({ from: '/posts/$postId' })
-  const { post, loading, error } = usePost(parseInt(postId))
-  const { user } = useAuth()
+  const { postId } = useParams({ from: "/posts/$postId" });
+  const { post, loading, error } = usePost(parseInt(postId));
+  const { user } = useAuth();
 
   if (loading) {
     return (
@@ -16,23 +16,26 @@ export default function PostPage() {
           <p className="text-gray-600">Loading post...</p>
         </div>
       </div>
-    )
+    );
   }
 
   if (error || !post) {
     return (
       <div className="max-w-4xl mx-auto">
-        <Link to="/" className="inline-block mb-6 text-blue-600 hover:underline">
+        <Link
+          to="/"
+          className="inline-block mb-6 text-blue-600 hover:underline"
+        >
           ← Back to Posts
         </Link>
         <div className="bg-red-50 border border-red-200 rounded-lg p-6">
-          <p className="text-red-800">{error || 'Post not found'}</p>
+          <p className="text-red-800">{error || "Post not found"}</p>
         </div>
       </div>
-    )
+    );
   }
 
-  const canEdit = user && (user.id === post.userId || user.isAdmin)
+  const canEdit = user && (user.id === post.userId || user.isAdmin);
 
   return (
     <div className="max-w-4xl mx-auto">
@@ -62,5 +65,5 @@ export default function PostPage() {
         </div>
       </article>
     </div>
-  )
+  );
 }

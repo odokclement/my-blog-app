@@ -1,5 +1,5 @@
 // src/contexts/AuthContext.tsx
-import { createContext, useContext, useState, use, useCallback } from "react";
+import { createContext, useContext, useState, useCallback } from "react";
 import type { User } from "../types";
 
 interface AuthContextType {

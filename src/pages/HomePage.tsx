@@ -1,24 +1,24 @@
-// src/pages/HomePage.tsx
-import { useEffect } from 'react'
-import { PostCard } from '../components/PostCard'
-import { usePosts } from '../hooks/usePosts'
-import { useAuth } from '../hooks/useAuth'
-import { Link } from '@tanstack/react-router'
+// homepage page component
+import { useEffect } from "react";
+import { PostCard } from "../components/PostCard";
+import { usePosts } from "../hooks/usePosts";
+import { useAuth } from "../hooks/useAuth";
+import { Link } from "@tanstack/react-router";
 
 export default function HomePage() {
-  const { posts, loading, fetchPosts, deletePost } = usePosts()
-  const { isAuthenticated } = useAuth()
+  const { posts, loading, fetchPosts, deletePost } = usePosts();
+  const { isAuthenticated } = useAuth();
 
   useEffect(() => {
-    fetchPosts()
-  }, [fetchPosts])
+    fetchPosts();
+  }, [fetchPosts]);
 
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
         <div className="text-lg text-gray-600">Loading posts...</div>
       </div>
-    )
+    );
   }
 
   return (
@@ -36,7 +36,9 @@ export default function HomePage() {
       </div>
       {posts.length === 0 ? (
         <div className="text-center py-12">
-          <p className="text-gray-600 text-lg">No posts yet. Create the first one!</p>
+          <p className="text-gray-600 text-lg">
+            No posts yet. Create the first one!
+          </p>
         </div>
       ) : (
         <div className="space-y-4">
@@ -46,5 +48,5 @@ export default function HomePage() {
         </div>
       )}
     </div>
-  )
+  );
 }

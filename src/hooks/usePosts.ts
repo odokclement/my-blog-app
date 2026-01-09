@@ -1,4 +1,4 @@
-// src/hooks/usePosts.ts
+// usePosts hook
 import { useState, useCallback, useEffect } from 'react'
 import type { Post } from '../types'
 import { api } from '../utils/api'
